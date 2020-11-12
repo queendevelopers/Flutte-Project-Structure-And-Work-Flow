@@ -37,20 +37,19 @@ class HomeView extends StatelessWidget {
           selectedItemColor: CustomColors.primary_color,
           unselectedItemColor: Colors.grey,
           currentIndex: homeModel.selectedItem,
+          showUnselectedLabels: true,
+
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.dynamic_feed),
               label: 'News',
-            ),
-            BottomNavigationBarItem(
+            ), BottomNavigationBarItem(
               icon: Icon(Icons.movie_sharp),
               label: 'Movies',
-            ),
-            BottomNavigationBarItem(
+            ), BottomNavigationBarItem(
               icon: Icon(Icons.restaurant_menu),
               label: 'Resturant',
-            ),
-            BottomNavigationBarItem(
+            ), BottomNavigationBarItem(
               icon: Icon(Icons.developer_board),
               label: 'GitHub',
             )

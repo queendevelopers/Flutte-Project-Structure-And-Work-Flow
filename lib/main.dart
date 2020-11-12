@@ -1,3 +1,4 @@
+import 'package:entry_assignment/helper/keys.dart';
 import 'package:entry_assignment/locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +25,9 @@ class MyApp extends StatelessWidget {
           Brightness platformBrightness =
               SchedulerBinding.instance.window.platformBrightness;
           if (platformBrightness == Brightness.dark) {
-            controller.setTheme('dark');
+            controller.setTheme(Keys.default_dark_theme);
           } else {
-            controller.setTheme('light');
+            controller.setTheme(Keys.default_light_theme);
           }
           controller.forgetSavedTheme();
         }
