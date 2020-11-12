@@ -1,5 +1,5 @@
 import 'package:entry_assignment/helper/keys.dart';
-import 'package:entry_assignment/views/BaseView.dart';
+import 'package:entry_assignment/ui/views/BaseView.dart';
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:theme_provider/theme_provider.dart';

@@ -2,7 +2,7 @@ import 'package:entry_assignment/core/customcolors.dart';
 import 'package:entry_assignment/core/viewmodels/customAppBar.dart';
 import 'package:entry_assignment/core/viewmodels/homemodel.dart';
 import 'package:entry_assignment/ui/routing.dart';
-import 'package:entry_assignment/views/BaseView.dart';
+import 'package:entry_assignment/ui/views/BaseView.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatelessWidget {

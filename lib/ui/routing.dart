@@ -1,5 +1,5 @@
-import 'package:entry_assignment/ui/home_view.dart';
-import 'package:entry_assignment/ui/settings_page.dart';
+import 'package:entry_assignment/ui/views/home_view.dart';
+import 'package:entry_assignment/ui/views/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
 
