@@ -1,8 +1,8 @@
 import 'package:entry_assignment/helper/keys.dart';
 import 'package:entry_assignment/locator.dart';
+import 'package:entry_assignment/ui/routing.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:entry_assignment/ui/routing.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:theme_provider/theme_provider.dart';
 
@@ -32,7 +32,10 @@ class MyApp extends StatelessWidget {
           controller.forgetSavedTheme();
         }
       },
-      themes: [AppTheme.light(), AppTheme.dark()],
+      themes: [
+        AppTheme.light(id: Keys.default_light_theme),
+        AppTheme.dark(id: Keys.default_dark_theme)
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: Routing.root,

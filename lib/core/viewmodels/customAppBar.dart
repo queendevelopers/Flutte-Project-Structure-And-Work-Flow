@@ -5,10 +5,10 @@ class CustomAppBar extends AppBar {
   CustomAppBar({key, title, context, actionsItems})
       : super(
             key: key,
-      leading:  ImageIcon(AssetImage('assets/images/Genius_logo.png')),
-      titleSpacing: 2,
-      backgroundColor: CustomColors.primary_color,
-      title: Text(
+            leading: ImageIcon(AssetImage('assets/images/Genius_logo.png')),
+            titleSpacing: 2,
+            backgroundColor: CustomColors.primaryColor,
+            title: Text(
               title,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),

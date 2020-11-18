@@ -1,0 +1,25 @@
+{
+  "results": [
+    {
+      "popularity": 2234.266,
+      "vote_count": 182,
+      "video": false,
+      "poster_path": "/9HT9982bzgN5on1sLRmc1GMn6ZC.jpg",
+      "id": 671039,
+      "adult": false,
+      "backdrop_path": "/gnf4Cb2rms69QbCnGFJyqwBWsxv.jpg",
+      "original_language": "fr",
+      "original_title": "Bronx",
+      "genre_ids": [
+        53,
+        28,
+        18,
+        80
+      ],
+      "title": "Rogue City",
+      "vote_average": 6.1,
+      "overview": "Caught in the crosshairs of police corruption and Marseille's warring gangs, a loyal cop must protect his squad by taking matters into his own hands.",
+      "release_date": "2020-10-30"
+    }
+  ]
+}

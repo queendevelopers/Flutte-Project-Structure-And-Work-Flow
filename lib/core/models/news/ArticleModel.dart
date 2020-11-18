@@ -1,11 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import 'SourceModel.dart';
+
 part 'ArticleModel.g.dart';
 
 @JsonSerializable()
-class ArticleModel{
-  SourceModel sourceModel;
+class ArticleModel {
+  SourceModel source;
   String author;
   String title;
   String description;
@@ -14,10 +15,11 @@ class ArticleModel{
   DateTime publishedAt;
   String content;
 
-  ArticleModel(this.sourceModel, this.author, this.title, this.description,
-      this.url, this.urlToImage, this.publishedAt, this.content);
-  factory ArticleModel.fromJson(Map<String,dynamic> json)=>
+  ArticleModel(this.author, this.title, this.description, this.url,
+      this.urlToImage, this.publishedAt, this.content, this.source);
+
+  factory ArticleModel.fromJson(Map<String, dynamic> json) =>
       _$ArticleModelFromJson(json);
 
-  Map<String,dynamic> toJson()=>_$ArticleModelToJson(this);
+  Map<String, dynamic> toJson() => _$ArticleModelToJson(this);
 }

@@ -5,7 +5,7 @@ import 'package:entry_assignment/ui/views/news.dart';
 import 'package:entry_assignment/ui/views/resturant.dart';
 
 
-class HomeModel extends BaseModel{
+class HomeViewModel extends BaseModel{
   int _selectedItem=0;
   int get selectedItem => _selectedItem;
   List currentTab=[News(),Movies(),Resturant(),GitHub()];

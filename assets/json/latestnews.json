@@ -1,0 +1,18 @@
+{
+  "status": "ok",
+  "totalResults": 20,
+  "articles": [
+    {
+      "source": {
+        "id": "bbc-news",
+        "name": "BBC News"
+      },
+      "author": "BBC News",
+      "title": "Nagorno-Karabakh: 'I didn't know that he loved her'",
+      "url": "http://www.bbc.co.uk/news/world-europe-54923014",
+      "urlToImage": "https://ichef.bbci.co.uk/images/ic/400xn/p08yfk56.jpg",
+      "publishedAt": "2020-11-14T02:52:23.7632257Z",
+      "content": "A deal's to end six weeks of war between Azerbaijan and Armenia over the breakaway territory of Nagorno-Karabakh came into effect this week - but families on both sides are still counting the cost of [+228 chars]"
+    }
+  ]
+}
