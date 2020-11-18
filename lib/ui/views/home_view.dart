@@ -2,13 +2,13 @@ import 'package:entry_assignment/core/customcolors.dart';
 import 'package:entry_assignment/core/viewmodels/customAppBar.dart';
 import 'package:entry_assignment/core/viewmodels/homemodel.dart';
 import 'package:entry_assignment/ui/routing.dart';
-import 'package:entry_assignment/views/BaseView.dart';
+import 'package:entry_assignment/ui/views/BaseView.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BaseView<HomeModel>(
+    return BaseView<HomeViewModel>(
       onModelReady: (model) => model,
       builder: (context, homeModel, child) => Scaffold(
         appBar: CustomAppBar(
@@ -34,22 +34,24 @@ class HomeView extends StatelessWidget {
         ),
         body: homeModel.currentTab[homeModel.selectedItem],
         bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: CustomColors.primary_color,
+          selectedItemColor: CustomColors.primaryColor,
           unselectedItemColor: Colors.grey,
           currentIndex: homeModel.selectedItem,
           showUnselectedLabels: true,
-
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.dynamic_feed),
               label: 'News',
-            ), BottomNavigationBarItem(
+            ),
+            BottomNavigationBarItem(
               icon: Icon(Icons.movie_sharp),
               label: 'Movies',
-            ), BottomNavigationBarItem(
+            ),
+            BottomNavigationBarItem(
               icon: Icon(Icons.restaurant_menu),
               label: 'Resturant',
-            ), BottomNavigationBarItem(
+            ),
+            BottomNavigationBarItem(
               icon: Icon(Icons.developer_board),
               label: 'GitHub',
             )
