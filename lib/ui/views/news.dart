@@ -10,10 +10,6 @@ class News extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Uri latestNewsUri = ApiService.rebuildUrl(WebAddress.newsApiBaseUrl,
-    //     WebAddress.newsLatest, {'q': 'Bitcoin', 'apiKey': APIKeys.newsAPI});
-    // ApiService.getNews(http.Client(), latestNewsUri, Keys.News);
-
     return BaseView<NewsViewModel>(
       onModelReady: (model) async {
         newsModel = await model.getLatestNews();

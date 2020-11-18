@@ -16,8 +16,10 @@ class NewsViewModel extends BaseModel {
     setState(ViewState.Busy);
     NewsModel newsModel = await DBService.db.readData(Keys.News, 10);
     if (newsModel.articles.isEmpty) {
-      Uri latestNewsUri = ApiService.rebuildUrl(WebAddress.newsApiBaseUrl,
-          WebAddress.newsLatest, {'q': 'Bitcoin', 'apiKey': APIKeys.newsAPI});
+      Uri latestNewsUri = ApiService.rebuildUrl(
+          WebAddress.newsApiBaseUrl,
+          WebAddress.newsLatest,
+          {'q': 'Programming', 'apiKey': APIKeys.newsAPI});
       ApiService.getData(http.Client(), latestNewsUri, Keys.News);
       return await DBService.db.readData(Keys.News, 5);
     } else {
