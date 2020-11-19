@@ -31,7 +31,7 @@ class MoviesViewModel extends BaseModel {
           WebAddress.tmdbApiNowShowingMovies, {'api_key': APIKeys.tmdpAPI});
       movieModel = await ApiService.getData(
           http.Client(), nowShowingMoviesUri, Keys.Movies);
-      movieModel = await DBService.db.readData(Keys.News, 5);
+      movieModel = await DBService.db.readData(Keys.Movies, 5);
       setState(ViewState.Idle);
       return movieModel;
     }
