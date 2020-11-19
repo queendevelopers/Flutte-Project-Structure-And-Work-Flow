@@ -8,8 +8,8 @@ class WebAddress {
   static const String googlemapBaseApiUrl =
       'maps.googleapis.com/maps/api/place/nearbysearch/json';
 
-  static const String githubApiBaseUrl = 'https://developer.github.com';
-  static const String githubGetRepos = 'v3/repos';
+  static const String githubApiBaseUrl = 'api.github.com';
+  static const String githubGetRepos = 'users/queendevelopers/repos';
 
   static const String omdbApiBaseUrl = 'omdbapi.com';
   static const String omdbApiSerarchMovie = '';

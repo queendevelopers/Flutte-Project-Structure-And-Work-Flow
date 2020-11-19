@@ -11,24 +11,25 @@ import 'package:entry_assignment/helper/keys.dart';
 import 'package:entry_assignment/helper/web_address.dart';
 import 'package:entry_assignment/ui/shared/sizeconfig.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:http/http.dart' as http;
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class MoviesViewModel extends BaseModel {
   MovieModel movieModel;
 
   Future<MovieModel> getNowShowingMovies() async {
     setState(ViewState.Busy);
-    await DBService.db.readData(Keys.Movies, 5);
     if (await ConnectivityService().getCurrentNetworkState() ==
         ConnectivityResult.none) {
       print('loading offline data for Movies');
-      movieModel = await DBService.db.readData(Keys.News, 5);
+      movieModel = await DBService.db.readData(Keys.Movies, 5);
       setState(ViewState.Idle);
       return movieModel;
     } else {
-      Uri nowShowingMoviesUri = ApiService.rebuildUrl(WebAddress.tmdbApiBaseUrl,
-          WebAddress.tmdbApiNowShowingMovies, {'api_key': APIKeys.tmdpAPI});
+      Uri nowShowingMoviesUri = ApiService.rebuildUrl(
+          WebAddress.tmdbApiBaseUrl,
+          WebAddress.tmdbApiNowShowingMovies,
+          {'api_key': APIKeys.tmdpAPI, 'append_to_response': 'videos'});
       movieModel = await ApiService.getData(
           http.Client(), nowShowingMoviesUri, Keys.Movies);
       movieModel = await DBService.db.readData(Keys.Movies, 5);
@@ -37,10 +38,11 @@ class MoviesViewModel extends BaseModel {
     }
   }
 
-  Widget getMoviesDisplayWidget(context, imageUrl, movieName, imdbRating) {
+  Widget getMoviesDisplayWidget(
+      context, imageUrl, movieName, imdbRating, trailer) {
     SizeConfig().init(context);
-    return Container(
-      child: Expanded(
+    return GestureDetector(
+      child: Container(
         child: Card(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
@@ -48,6 +50,7 @@ class MoviesViewModel extends BaseModel {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(16.0),
             child: Stack(
+              fit: StackFit.expand,
               children: [
                 CachedNetworkImage(
                   imageUrl: imageUrl,
@@ -78,16 +81,12 @@ class MoviesViewModel extends BaseModel {
           ),
         ),
       ),
-    );
-  }
-
-  playVideo(String id) {
-    YoutubePlayerController _controller = YoutubePlayerController(
-      initialVideoId: 'iLnmTe5Q2Qw',
-      flags: YoutubePlayerFlags(
-        autoPlay: true,
-        mute: true,
-      ),
+      onTap: () => FlutterYoutube.playYoutubeVideoByUrl(
+          apiKey: APIKeys.youtubeAPI,
+          videoUrl: "https://www.youtube.com/watch?v=$trailer",
+          autoPlay: false, //default falase
+          fullScreen: true //default false
+          ),
     );
   }
 }

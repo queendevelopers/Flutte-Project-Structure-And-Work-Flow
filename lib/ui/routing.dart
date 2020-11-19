@@ -29,7 +29,6 @@ class Routing {
             builder: (_) => ThemeConsumer(
                   child: SettingsPage(),
                 ));
-
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

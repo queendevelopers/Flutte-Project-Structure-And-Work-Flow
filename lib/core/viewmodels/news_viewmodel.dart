@@ -18,7 +18,6 @@ class NewsViewModel extends BaseModel {
 
   Future<NewsModel> getLatestNews() async {
     setState(ViewState.Busy);
-    await DBService.db.readData(Keys.News, 10);
     if (await ConnectivityService().getCurrentNetworkState() ==
         ConnectivityResult.none) {
       print('loading offline data for News');

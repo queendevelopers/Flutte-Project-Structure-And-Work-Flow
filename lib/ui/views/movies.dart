@@ -25,7 +25,8 @@ class Movies extends StatelessWidget {
                             context,
                             model.movieModel.results[index].Poster,
                             model.movieModel.results[index].title,
-                            model.movieModel.results[index].imdbRating),
+                            model.movieModel.results[index].imdbRating,
+                            model.movieModel.results[index].trailer),
                   )
         /*        GridView.count(
                     crossAxisCount: 2,

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:entry_assignment/core/models/github/github_model.dart';
 import 'package:entry_assignment/core/models/news/ArticleModel.dart';
 import 'package:entry_assignment/core/models/news/NewsModel.dart';
 import 'package:entry_assignment/core/models/omdb_tmdb/MovieModel.dart';
@@ -27,6 +28,8 @@ class DBService {
       "CREATE TABLE movies(id INTEGER PRIMARY KEY,title TEXT, trailer TEXT,Poster TEXT,imdbRating TEXT)";
   String nearbyLocations =
       "CREATE TABLE nearbylocation(id INTEGER PRIMARY KEY,poster_image TEXT,latitude REAL,longitude REAL,name TEXT)";
+  String githubTable =
+      "CREATE TABLE github(id INTEGER, name TEXT,html_url TEXT,description TEXT)";
 
   Future<Database> get database async {
     if (_database != null) return _database;
@@ -44,12 +47,13 @@ class DBService {
         db.execute(newsTable);
         db.execute(moviesTable);
         db.execute(nearbyLocations);
+        db.execute(githubTable);
       },
       version: 1,
     );
   }
 
-  Future<Database> insertData(String key, dynamic dynamicModel) async {
+  Future<Database> insertData(dynamic dynamicModel) async {
     final db = await database;
     var batch = db.batch();
     if (dynamicModel is NewsModel) {
@@ -81,6 +85,24 @@ class DBService {
             conflictAlgorithm: ConflictAlgorithm.replace);
       }).toList();
     }
+
+    if (dynamicModel is List<GitHubModel>) {
+      List<GitHubModel> githubModels = await readData(Keys.GitHub, null);
+      if (githubModels.isNotEmpty) {
+      } else {
+        dynamicModel.map((e) {
+          Map<String, dynamic> newMap = Map();
+          newMap = {
+            'id': e.id,
+            'name': e.name,
+            'description': e.description,
+            'html_url': e.html_url,
+          };
+          batch.insert('github', newMap,
+              conflictAlgorithm: ConflictAlgorithm.replace);
+        }).toList();
+      }
+    }
     await batch.commit(continueOnError: true, noResult: true);
   }
 
@@ -100,7 +122,14 @@ class DBService {
         print(response);
         MovieModel movieModel =
             MovieModel(response.map((e) => MovieResults.fromJson(e)).toList());
+
         return movieModel;
+
+      case Keys.GitHub:
+        var response = await db.query("github");
+        List<GitHubModel> githubModelList =
+            response.map((e) => GitHubModel.fromJson(e)).toList();
+        return githubModelList;
     }
   }
 }

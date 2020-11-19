@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:entry_assignment/core/api_keys.dart';
+import 'package:entry_assignment/core/models/github/github_model.dart';
 import 'package:entry_assignment/core/models/news/NewsModel.dart';
 import 'package:entry_assignment/core/models/omdb_tmdb/MovieModel.dart';
 import 'package:entry_assignment/core/models/omdb_tmdb/MovieResults.dart';
@@ -26,33 +27,38 @@ class ApiService {
       switch (key) {
         case Keys.News:
           NewsModel newsModel = NewsModel.fromJson(jsonDecode(response.body));
-          await DBService.db.insertData(Keys.News, newsModel);
+          await DBService.db.insertData(newsModel);
           return newsModel;
-          break;
         case Keys.Movies:
           MovieModel movieModel =
               MovieModel.fromJson(jsonDecode(response.body));
-
-          movieModel.results.map((e) async {
-            final omdbResponse = await client.get(
+          await Future.wait(movieModel.results.map((e) async {
+            var omdbResponse = await client.get(
                 rebuildUrl(
                     WebAddress.omdbApiBaseUrl, WebAddress.omdbApiSerarchMovie, {
                   'apikey': APIKeys.omdbAPI,
                   't': e.title.replaceAll(" ", "+")
                 }),
                 headers: {HttpHeaders.contentTypeHeader: 'application/json'});
+            print(omdbResponse.body);
             MovieResults movieResults =
                 MovieResults.fromJson(jsonDecode(omdbResponse.body));
             e.Poster = movieResults.Poster;
             e.imdbRating = movieResults.imdbRating;
 
-            print(e.title);
-          }).toList();
-
-          await DBService.db.insertData(Keys.Movies, movieModel);
+            print(e.Poster);
+          }).toList());
+          print('I was waiting');
+          await DBService.db.insertData(movieModel);
           return movieModel;
 
-          break;
+        case Keys.GitHub:
+          var list = jsonDecode(response.body) as List;
+          List<GitHubModel> gitHubModel =
+              list.map((e) => GitHubModel.fromJson(e)).toList();
+          print('printing $gitHubModel');
+          await DBService.db.insertData(gitHubModel);
+          return gitHubModel;
       }
     } else {
       throw Exception('Failed to load post');
