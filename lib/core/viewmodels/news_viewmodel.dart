@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:entry_assignment/core/api_keys.dart';
 import 'package:entry_assignment/core/enum/viewstate.dart';
 import 'package:entry_assignment/core/models/news/NewsModel.dart';
 import 'package:entry_assignment/core/service/api_service.dart';
+import 'package:entry_assignment/core/service/connectivity_service.dart';
 import 'package:entry_assignment/core/service/db_service.dart';
 import 'package:entry_assignment/core/viewmodels/basemodel.dart';
 import 'package:entry_assignment/helper/keys.dart';
@@ -12,26 +14,31 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class NewsViewModel extends BaseModel {
+  NewsModel newsModel;
+
   Future<NewsModel> getLatestNews() async {
     setState(ViewState.Busy);
-    NewsModel newsModel = await DBService.db.readData(Keys.News, 10);
-    if (newsModel.articles.isEmpty) {
+    await DBService.db.readData(Keys.News, 10);
+    if (await ConnectivityService().getCurrentNetworkState() ==
+        ConnectivityResult.none) {
+      print('loading offline data for News');
+      newsModel = await DBService.db.readData(Keys.News, 5);
+      setState(ViewState.Idle);
+      return newsModel;
+    } else {
       Uri latestNewsUri = ApiService.rebuildUrl(
           WebAddress.newsApiBaseUrl,
           WebAddress.newsLatest,
           {'q': 'Programming', 'apiKey': APIKeys.newsAPI});
-      ApiService.getData(http.Client(), latestNewsUri, Keys.News);
-      return await DBService.db.readData(Keys.News, 5);
-    } else {
+      await ApiService.getData(http.Client(), latestNewsUri, Keys.News);
+      newsModel = await DBService.db.readData(Keys.News, 5);
       setState(ViewState.Idle);
-      notifyListeners();
-      return DBService.db.readData(Keys.News, 5);
+      return newsModel;
     }
   }
 
   Widget getNewsDisplayWidget(
       context, String urlToImage, String title, String description) {
-    print(urlToImage);
     SizeConfig().init(context);
     return Container(
       child: Card(

@@ -8,19 +8,37 @@ class Movies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView<MoviesViewModel>(
-        onModelReady: (model) async => await model.getNowShowingMovies(),
-        builder: (context, model, child) => model.state == ViewState.Busy
-            ? Center(
-                child: Center(
-                  child: CupertinoActivityIndicator(
-                    radius: 18,
-                  ),
-                ),
-              )
-            : Container(
-                child: Center(
-                  child: Text('IDLE'),
-                ),
-              ));
+        onModelReady: (model) => model.getNowShowingMovies(),
+        builder: (BuildContext context, model, child) =>
+            model.state == ViewState.Busy
+                ? Center(
+                    child: CupertinoActivityIndicator(
+                      radius: 18,
+                    ),
+                  )
+                : GridView.builder(
+                    itemCount: model.movieModel.results.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, childAspectRatio: 0.71),
+                    itemBuilder: (context, index) =>
+                        model.getMoviesDisplayWidget(
+                            context,
+                            model.movieModel.results[index].Poster,
+                            model.movieModel.results[index].title,
+                            model.movieModel.results[index].imdbRating),
+                  )
+        /*        GridView.count(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.75,
+                    children: List.generate(
+                      model.movieModel.results.length,
+                      (index) => model.getMoviesDisplayWidget(
+                          context,
+                          model.movieModel.results[index].Poster,
+                          model.movieModel.results[index].title,
+                          model.movieModel.results[index].imdbRating),
+                    ))
+    */
+        );
   }
 }

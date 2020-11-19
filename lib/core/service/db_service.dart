@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:entry_assignment/core/models/news/ArticleModel.dart';
 import 'package:entry_assignment/core/models/news/NewsModel.dart';
+import 'package:entry_assignment/core/models/omdb_tmdb/MovieModel.dart';
+import 'package:entry_assignment/core/models/omdb_tmdb/MovieResults.dart';
 import 'package:entry_assignment/helper/keys.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -12,7 +15,6 @@ class DBService {
 
   static final DBService db = DBService._();
   Database _database;
-  int id = 100;
 
   String newsTable = ("CREATE TABLE if not exists news ("
       "id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -22,7 +24,7 @@ class DBService {
       "source TEXT"
       ")");
   String moviesTable =
-      "CREATE TABLE movies(id INTEGER PRIMARY KEY,poster_image TEXT,imdb_rating REAL,trailer_videoUrl TEXT)";
+      "CREATE TABLE movies(id INTEGER PRIMARY KEY,title TEXT, trailer TEXT,Poster TEXT,imdbRating TEXT)";
   String nearbyLocations =
       "CREATE TABLE nearbylocation(id INTEGER PRIMARY KEY,poster_image TEXT,latitude REAL,longitude REAL,name TEXT)";
 
@@ -58,41 +60,47 @@ class DBService {
           'title': e.title,
           'urlToImage': e.urlToImage,
           'description': e.description,
-          'source': '{id: ${e.source.id}, name : ${e.source.name}}',
+          'source': jsonEncode(e.source),
         };
         batch.insert('news', newMap,
             conflictAlgorithm: ConflictAlgorithm.replace);
       }).toList();
     }
+
+    if (dynamicModel is MovieModel) {
+      print(dynamicModel.results.length);
+      dynamicModel.results.map((e) {
+        Map<String, dynamic> newMap = Map();
+        newMap = {
+          'title': e.title,
+          'trailer': e.trailer,
+          'Poster': e.Poster,
+          'imdbRating': e.imdbRating,
+        };
+        batch.insert('movies', newMap,
+            conflictAlgorithm: ConflictAlgorithm.replace);
+      }).toList();
+    }
     await batch.commit(continueOnError: true, noResult: true);
-    var response = db.query('news');
-    // print(response.then((value) => print(value)));
   }
 
-  Future<NewsModel> readData(String key, int limit) async {
+  Future<dynamic> readData(String key, int limit) async {
     final db = await database;
     switch (key) {
       case Keys.News:
-        var response = await db.query("news", limit: limit);
+        var response = await db.query("news", limit: limit, orderBy: 'id DESC');
         print(response);
         NewsModel newsModel = NewsModel("ok", response.length,
             response.map((e) => ArticleModel.fromJson(e)).toList());
-        // print(newsModel.toJson());
         return newsModel;
-        // print(newsModel.articles[0].source.name);
-        // if (response.isNotEmpty) {
-        String hello = "{id:name,name:password}";
-        print(hello);
 
-      // }
-
-      // var newResponse =
-      //     response.map((e) => e['source'] = jsonDecode(e['source']));
-      // print(newResponse);
-      // ArticleModel articleModel = ArticleModel.fromJson(
-      //     response[0]['source'] = jsonDecode(response[0]['source']));
-
-      // ArticleModel().toJson();
+      case Keys.Movies:
+        var response =
+            await db.query("movies", limit: limit, orderBy: 'id DESC');
+        print(response);
+        MovieModel movieModel =
+            MovieModel(response.map((e) => MovieResults.fromJson(e)).toList());
+        return movieModel;
     }
   }
 }

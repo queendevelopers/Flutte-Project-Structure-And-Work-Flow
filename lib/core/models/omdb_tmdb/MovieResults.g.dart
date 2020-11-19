@@ -24,8 +24,8 @@ MovieResults _$MovieResultsFromJson(Map<String, dynamic> json) {
     json['release_date'] == null
         ? null
         : DateTime.parse(json['release_date'] as String),
-    json['imdb_rating'] as String,
-    (json['imdbRating'] as num)?.toDouble(),
+    json['Poster'] as String,
+    json['imdbRating'] as String,
     json['trailer'] as String,
   );
 }
@@ -46,7 +46,7 @@ Map<String, dynamic> _$MovieResultsToJson(MovieResults instance) =>
       'vote_average': instance.vote_average,
       'overview': instance.overview,
       'release_date': instance.release_date?.toIso8601String(),
-      'imdb_rating': instance.imdb_rating,
+      'Poster': instance.Poster,
       'imdbRating': instance.imdbRating,
       'trailer': instance.trailer,
     };

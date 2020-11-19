@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:entry_assignment/core/api_keys.dart';
 import 'package:entry_assignment/core/models/news/NewsModel.dart';
 import 'package:entry_assignment/core/models/omdb_tmdb/MovieModel.dart';
+import 'package:entry_assignment/core/models/omdb_tmdb/MovieResults.dart';
 import 'package:entry_assignment/core/service/db_service.dart';
 import 'package:entry_assignment/helper/keys.dart';
+import 'package:entry_assignment/helper/web_address.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -29,7 +32,26 @@ class ApiService {
         case Keys.Movies:
           MovieModel movieModel =
               MovieModel.fromJson(jsonDecode(response.body));
+
+          movieModel.results.map((e) async {
+            final omdbResponse = await client.get(
+                rebuildUrl(
+                    WebAddress.omdbApiBaseUrl, WebAddress.omdbApiSerarchMovie, {
+                  'apikey': APIKeys.omdbAPI,
+                  't': e.title.replaceAll(" ", "+")
+                }),
+                headers: {HttpHeaders.contentTypeHeader: 'application/json'});
+            MovieResults movieResults =
+                MovieResults.fromJson(jsonDecode(omdbResponse.body));
+            e.Poster = movieResults.Poster;
+            e.imdbRating = movieResults.imdbRating;
+
+            print(e.title);
+          }).toList();
+
+          await DBService.db.insertData(Keys.Movies, movieModel);
           return movieModel;
+
           break;
       }
     } else {

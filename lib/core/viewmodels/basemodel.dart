@@ -2,7 +2,7 @@ import 'package:entry_assignment/core/enum/viewstate.dart';
 import 'package:flutter/material.dart';
 
 class BaseModel extends ChangeNotifier {
-  ViewState _state = ViewState.Busy;
+  ViewState _state = ViewState.Idle;
 
   ViewState get state => _state;
 

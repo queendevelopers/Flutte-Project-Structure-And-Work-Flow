@@ -18,9 +18,9 @@ class MovieResults {
   double vote_average;
   String overview;
   DateTime release_date;
-  String imdb_rating;
+  String Poster;
 
-  double imdbRating;
+  String imdbRating;
   String trailer;
 
   MovieResults(
@@ -38,7 +38,7 @@ class MovieResults {
       this.vote_average,
       this.overview,
       this.release_date,
-      this.imdb_rating,
+      this.Poster,
       this.imdbRating,
       this.trailer);
 
