@@ -4,8 +4,7 @@ The entire application has followed the MVVM (Model View View Model) architectur
 MVVM cleanly seprates the UI (User Interface) and business logic which helps developer to identify the bugs easily.
 
 # Video Demo
-<iframe width="560" height="315" src="https://www.youtube.com/embed/koXcbMDBEgY?start=13" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/koXcbMDBEgY/0.jpg)](http://www.youtube.com/watch?v=koXcbMDBEgY "Flutter Assignment")
 # App functions
 - Switch to light and dark mode from preferences.
 - Added Splash screen
