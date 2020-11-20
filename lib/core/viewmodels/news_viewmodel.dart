@@ -28,7 +28,7 @@ class NewsViewModel extends BaseModel {
       Uri latestNewsUri = ApiService.rebuildUrl(
           WebAddress.newsApiBaseUrl,
           WebAddress.newsLatest,
-          {'q': 'Programming', 'apiKey': APIKeys.newsAPI});
+          {'q': 'Technology', 'apiKey': APIKeys.newsAPI});
       await ApiService.getData(http.Client(), latestNewsUri, Keys.News);
       newsModel = await DBService.db.readData(Keys.News, 5);
       setState(ViewState.Idle);

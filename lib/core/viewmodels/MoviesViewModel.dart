@@ -26,6 +26,7 @@ class MoviesViewModel extends BaseModel {
       setState(ViewState.Idle);
       return movieModel;
     } else {
+      //append_to_response params has not effect at this time, so using another get request for video information.
       Uri nowShowingMoviesUri = ApiService.rebuildUrl(
           WebAddress.tmdbApiBaseUrl,
           WebAddress.tmdbApiNowShowingMovies,
@@ -84,7 +85,7 @@ class MoviesViewModel extends BaseModel {
       onTap: () => FlutterYoutube.playYoutubeVideoByUrl(
           apiKey: APIKeys.youtubeAPI,
           videoUrl: "https://www.youtube.com/watch?v=$trailer",
-          autoPlay: false, //default falase
+          autoPlay: true, //default falase
           fullScreen: true //default false
           ),
     );

@@ -4,6 +4,7 @@ class WebAddress {
 
   static const String tmdbApiBaseUrl = 'api.themoviedb.org';
   static const String tmdbApiNowShowingMovies = '3/movie/now_playing';
+  static const String tmdbApiVideoTraielr = '3/movie';
 
   static const String googlemapBaseApiUrl =
       'maps.googleapis.com/maps/api/place/nearbysearch/json';

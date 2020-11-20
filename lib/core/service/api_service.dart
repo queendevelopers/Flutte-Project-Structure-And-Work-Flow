@@ -33,6 +33,7 @@ class ApiService {
           MovieModel movieModel =
               MovieModel.fromJson(jsonDecode(response.body));
           await Future.wait(movieModel.results.map((e) async {
+            //For imdbRating & Poster
             var omdbResponse = await client.get(
                 rebuildUrl(
                     WebAddress.omdbApiBaseUrl, WebAddress.omdbApiSerarchMovie, {
@@ -40,15 +41,25 @@ class ApiService {
                   't': e.title.replaceAll(" ", "+")
                 }),
                 headers: {HttpHeaders.contentTypeHeader: 'application/json'});
-            print(omdbResponse.body);
+
+            //For Movie Trailer
+            Uri videoTrailer = ApiService.rebuildUrl(
+                WebAddress.tmdbApiBaseUrl,
+                WebAddress.tmdbApiVideoTraielr + '/${e.id}/videos',
+                {'api_key': APIKeys.tmdpAPI});
+
+            var trailerResponse = await client.get(videoTrailer);
+
+            var responseBody = jsonDecode(trailerResponse.body);
+            print(responseBody['results'][0]['key']);
+
             MovieResults movieResults =
                 MovieResults.fromJson(jsonDecode(omdbResponse.body));
             e.Poster = movieResults.Poster;
             e.imdbRating = movieResults.imdbRating;
-
-            print(e.Poster);
+            e.trailer = responseBody['results'][0]['key'];
+            print(e.trailer);
           }).toList());
-          print('I was waiting');
           await DBService.db.insertData(movieModel);
           return movieModel;
 
@@ -56,7 +67,6 @@ class ApiService {
           var list = jsonDecode(response.body) as List;
           List<GitHubModel> gitHubModel =
               list.map((e) => GitHubModel.fromJson(e)).toList();
-          print('printing $gitHubModel');
           await DBService.db.insertData(gitHubModel);
           return gitHubModel;
       }
