@@ -3,7 +3,8 @@ The project is done as part of the assignment test for mobile application develo
 The entire application has followed the MVVM (Model View View Model) architecture with provider design pattern.
 MVVM cleanly seprates the UI (User Interface) and business logic which helps developer to identify the bugs easily.
 
-
+# Video Demo
+<iframe width="560" height="315" src="https://www.youtube.com/embed/koXcbMDBEgY?start=13" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 # App functions
 - Switch to light and dark mode from preferences.
